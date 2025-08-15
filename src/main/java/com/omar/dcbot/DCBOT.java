@@ -11,6 +11,7 @@ public class DCBOT {
     private final ShardManager shardManager;
 
     public DCBOT() throws LoginException {
+        String token = "MTQwNDA3NjIzMDczMDU4NDA2NA.G4jCKX.NaD7I2KnfClhbzpj9JNK38uudAf5FeJRl5AfAQ"; //Discord bot token
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(token);
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.playing("WITH YOUR EMOTIONS"));
