@@ -1,8 +1,10 @@
 package com.omar.dcbot;
 
+import com.omar.dcbot.listeners.EventListener;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 
@@ -17,11 +19,15 @@ public class DCBOT {
 
 
         String token = config.get("TOKEN"); //Discord bot token
-        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(token);
+        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(token).enableIntents(GatewayIntent.MESSAGE_CONTENT
+        );
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.playing("Hayallerimle"));
         shardManager = builder.build();
 
+
+        // Register Listeners
+        shardManager.addEventListener(new EventListener() );
     }
 
 
