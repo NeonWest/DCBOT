@@ -30,7 +30,6 @@ public class DCBOT {
         shardManager.addEventListener(new EventListener() );
     }
 
-Nihata salam
     public Dotenv getConfig() {
         return config;
     }
