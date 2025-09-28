@@ -11,13 +11,12 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 
-import javax.security.auth.login.LoginException;
 
 public class DCBOT {
     private final Dotenv config;
     private final ShardManager shardManager;
 
-    public DCBOT() throws LoginException {
+    public DCBOT() {
         config = Dotenv.configure().load();
 
 
@@ -51,10 +50,6 @@ public class DCBOT {
     }
 
     public static void main(String[] args){
-        try{
-            DCBOT bot = new DCBOT();
-        } catch (LoginException e){
-            System.out.println("ERROR PROVIDED TOKEN IS INVALID!");
-        }
+        DCBOT bot = new DCBOT();
     }
 }
