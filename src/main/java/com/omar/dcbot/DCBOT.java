@@ -11,13 +11,12 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 
-import javax.security.auth.login.LoginException;
 
 public class DCBOT {
-    private final Dotenv config;
-    private final ShardManager shardManager;
 
-    public DCBOT() throws LoginException {
+    public DCBOT() {
+        final ShardManager shardManager;
+        final Dotenv config;
         config = Dotenv.configure().load();
 
 
@@ -31,7 +30,7 @@ public class DCBOT {
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT);
 
         builder.setStatus(OnlineStatus.ONLINE);
-        builder.setActivity(Activity.playing("Hayallerimle"));
+        builder.setActivity(Activity.playing("/ask"));
         shardManager = builder.build();
 
         shardManager.getShards().get(0).updateCommands().addCommands(
@@ -42,19 +41,10 @@ public class DCBOT {
         shardManager.addEventListener(new EventListener(geminiService) );
     }
 
-    public Dotenv getConfig() {
-        return config;
-    }
 
-    public ShardManager getShardManager(){
-        return shardManager;
-    }
+
 
     public static void main(String[] args){
-        try{
-            DCBOT bot = new DCBOT();
-        } catch (LoginException e){
-            System.out.println("ERROR PROVIDED TOKEN IS INVALID!");
-        }
+
     }
 }
