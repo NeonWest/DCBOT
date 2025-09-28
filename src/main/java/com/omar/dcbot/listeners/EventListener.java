@@ -2,32 +2,36 @@ package com.omar.dcbot.listeners;
 
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.Channel;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import org.jetbrains.annotations.NotNull;
+import com.omar.dcbot.services.GeminiService;
 
 public class EventListener extends ListenerAdapter {
 
-    @Override
-    public void onMessageReactionAdd(@NotNull MessageReactionAddEvent event) {
-        User user = event.getUser();
-        String emoji = event.getReaction().getEmoji().getAsReactionCode();
-        String channelname= event.getChannel().getAsMention();
-        String jumpLink = event.getJumpUrl();
+    private final GeminiService geminiservice;
 
-
-        String message = user.getAsTag() + " reacted with " + emoji + " in the " + channelname + "channel!";
-        event.getGuild().getDefaultChannel().asTextChannel().sendMessage(message).queue();
+    public EventListener(GeminiService geminiservice){
+        this.geminiservice = geminiservice;
     }
 
-    @Override
-    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        String message = event.getMessage().getContentRaw();
-        if(message.contains("salam")){
-            event.getChannel().sendMessage("Aleykum Salam").queue();
-        }
 
+    @Override
+    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
+        if (event.getName().equals("ask")) {
+            String question = event.getOption("question").getAsString();
+
+            // Acknowledge the command immediately (Discord requires this)
+            event.deferReply().queue();
+
+            // Get AI response
+            String aiResponse = geminiservice.askQuestion(question);
+
+            // Send the response
+            event.getHook().sendMessage("🤖 **AI Assistant:** " + aiResponse).queue();
+        }
     }
 }
