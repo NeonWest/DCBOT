@@ -30,7 +30,7 @@ public class DCBOT {
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT);
 
         builder.setStatus(OnlineStatus.ONLINE);
-        builder.setActivity(Activity.playing("Hayallerimle"));
+        builder.setActivity(Activity.playing("/ask"));
         shardManager = builder.build();
 
         shardManager.getShards().get(0).updateCommands().addCommands(
